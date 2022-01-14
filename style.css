@@ -53,3 +53,16 @@ main section button{
     width: 90%;
 
 }
+
+#detalhes-container > li {
+
+align-items: baseline;
+display: flex;
+
+}
+
+#detalhes-container li p {
+
+color: white;
+
+}
