@@ -1,35 +1,48 @@
-const imagem = document.querySelector('img');
-const botao = document.querySelector('button');
-const nomeDoPersonagem = document.querySelector('#nome');
-const especie = document.querySelector('#especie');
-const condicao  = document.querySelector('#condicao');
 
-gerarValorAleatorio = () => {
+    let container = document.querySelector('div.container');
+    let content = '';
 
-    return Math.floor(Math.random() * 671);
-}
+    let numeros_gerados = [];
+    let limite = 3;
 
-pegarPersonagem = () =>  {
-    let numeroAleatorio = gerarValorAleatorio();
+    let min = Math.ceil(1); // id minimo de personagem
+    let max = Math.floor(671); // id maximo de personagem
 
-    return fetch(`https://rickandmortyapi.com/api/character/${numeroAleatorio}`,{
+    while (true) {
+      let n = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    method: 'GET', 
-    headers: {
+      if (!numeros_gerados.includes(n)) {
+        numeros_gerados.push(n);
+      }
 
-        Accept: 'application/json',
-        "Content-type": 'application/json'
+      if (numeros_gerados.length == limite) {
+        break;
+      }
     }
 
-    }).then((Response) => Response.json()).then((data) => {
+    var btn = document.querySelector("#refresh");
 
-        imagem.src = data.image;
-        imagem.alt = data.name;
-        nomeDoPersonagem.innerHTML = data.name;
-        especie.innerHTML = data.species;
-        condicao.innerHTML = data.status;
+btn.addEventListener("click", function() {
+    
+    location.reload();
+
+});
+
+    numeros_gerados.forEach((number) => {
+      fetch(`https://rickandmortyapi.com/api/character/${number}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          "Content-type": 'application/json'
+        }
+      }).then((Response) => Response.json()).then((data) => {
+        content += '<div class="box">';
+        content += `<img src="${data.image}" />`;
+        content += `<p>Nome: <span>${data.name}</span></p>`;
+        content += `<p>Espécie: <span>${data.species}</span></p>`;
+        content += `<p>Vivo: <span>${data.status}</span></p>`;
+        content += '</div>';
+
+        container.innerHTML = content;
+      });
     });
-
-}
-
-botao.onclick = pegarPersonagem;
