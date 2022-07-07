@@ -1,2 +1,1 @@
-# Minicurso
-Minicurso do Catalisa 2022 - Como consumir a  API do Rick and Morty
+Consumo de Api do Rick and Morty utilizando JavaScript
